@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.driver;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import java.util.Locale;
+
 public class HumanDriverPair {
-    private Gamepad chassisGamepad;
-    private Gamepad torsoGamepad;
+    private final Gamepad chassisGamepad;
+    private final Gamepad torsoGamepad;
 
     public HumanDriverPair(Gamepad chassis, Gamepad torso) {
         chassisGamepad = chassis;

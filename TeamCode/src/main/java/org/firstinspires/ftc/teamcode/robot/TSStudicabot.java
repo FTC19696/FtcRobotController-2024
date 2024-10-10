@@ -6,13 +6,9 @@ import java.util.Locale;
 
 public class TSStudicabot {
     private final DriveBase driveBase;
-//    private Pylon pylon;
-//    private Arm arm;
 
     public TSStudicabot(HardwareMap hardwareMap) {
         driveBase = new DriveBase(hardwareMap);
-//        arm = new Arm(hardwareMap);
-//        pylon = new Pylon(hardwareMap);
     }
 
     public void sendCommands(RobotCommands robotCommands) {
@@ -27,13 +23,15 @@ public class TSStudicabot {
         backRightPower = robotCommands.moveForward - robotCommands.moveRotate + robotCommands.moveLateral;
 
         this.driveBase.setPower(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
-//        this.pylon.setPower(robotCommands.spinPylon);
     }
 
     public String getTelemetryReport() {
         return String.format(Locale.US,
-                "left ( %.2f), right (%.2f)", this.driveBase.frontLeftMotor.getPower(),
-                this.driveBase.frontRightMotor.getPower());
+                "FL %.2f, FR %.2f, BL %.2f, BR %.2f",
+                this.driveBase.frontLeftMotor.getPower(),
+                this.driveBase.frontRightMotor.getPower(),
+                this.driveBase.backLeftMotor.getPower(),
+                this.driveBase.backRightMotor.getPower());
     }
 
     private static class DriveBase {
@@ -65,31 +63,5 @@ public class TSStudicabot {
             this.backLeftMotor.setPower(backLeft);
             this.backRightMotor.setPower(backRight);
         }
-
-//        public void stop() {
-//            this.frontRightMotor.setPower(0);
-//            this.frontLeftMotor.setPower(0);
-//            this.backRightMotor.setPower(0);
-//            this.backLeftMotor.setPower(0);
-//        }
     }
-
-//    private static class Pylon {
-//        private DcMotor spiralMotor = null;
-//
-//        public Pylon(HardwareMap hardwareMap) {
-//            spiralMotor = hardwareMap.get(DcMotor.class, "Spiral");
-//            spiralMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//            spiralMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        }
-//
-//        public void setPower(double power) {
-//            spiralMotor.setPower(power);
-//        }
-//    }
-//
-//    private static class Arm {
-//        public Arm(HardwareMap hardwareMap) {
-//        }
-//    }
 }
