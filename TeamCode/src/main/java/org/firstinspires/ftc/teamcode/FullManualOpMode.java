@@ -15,8 +15,6 @@ public class FullManualOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        writeHardwareMap(this.hardwareMap);
-
         HumanDriverPair driveTeam = new HumanDriverPair(this.gamepad1, this.gamepad2);
         TSStudicabot robot = new TSStudicabot(this.hardwareMap);
 
@@ -54,18 +52,6 @@ public class FullManualOpMode extends LinearOpMode {
         commands.moveLateral = driverInputs.strafeMotion;
         commands.spinPylon = driverInputs.pylonSpin;
         return commands;
-    }
-
-    private void writeHardwareMap(HardwareMap hwMap)
-    {
-        if (hwMap == null)
-            throw new IllegalArgumentException("HardwareMap is null.");
-
-        for (DcMotor dcm : hwMap.dcMotor)
-        {
-            this.telemetry.addLine(dcm.toString());
-        }
-        telemetry.update();
     }
 
     private void startTelemetry() {
