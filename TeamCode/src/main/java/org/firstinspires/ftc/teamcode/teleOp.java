@@ -14,6 +14,7 @@ public class teleOp extends LinearOpMode {
         double driverRotate;
         double driverStrafe;
         boolean driverSlow;
+        double coDriverLift;
 
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
@@ -37,17 +38,22 @@ public class teleOp extends LinearOpMode {
         DcMotor robotBackRightMotor;
         robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
 
+        DcMotor robotLiftMotors;
+        robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
+
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
         robotFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robotFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotFrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
@@ -61,6 +67,7 @@ public class teleOp extends LinearOpMode {
             driverRotate = gamepad1.right_stick_x;
             driverStrafe = gamepad1.left_stick_x;
             driverSlow = gamepad1.right_bumper;
+            coDriverLift = gamepad2.left_stick_y;
 
             // computing the output values.
             if (driverSlow) {
@@ -78,6 +85,7 @@ public class teleOp extends LinearOpMode {
             robotFrontRightMotor.setPower(calcFrontRight);
             robotBackLeftMotor.setPower(calcBackLeft);
             robotBackRightMotor.setPower(calcBackRight);
+            robotLiftMotors.setPower(coDriverLift);
         }
     }
 }
