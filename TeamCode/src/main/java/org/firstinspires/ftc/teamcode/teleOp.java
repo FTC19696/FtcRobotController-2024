@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "TeleOp", group ="Linear Opmode" )
 public class teleOp extends LinearOpMode {
@@ -15,6 +16,9 @@ public class teleOp extends LinearOpMode {
         double driverStrafe;
         boolean driverSlow;
         double coDriverLift;
+        boolean coDriverLeftClaw;
+        boolean coDriverRightClaw;
+
 
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
@@ -41,6 +45,12 @@ public class teleOp extends LinearOpMode {
         DcMotor robotLiftMotors;
         robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
 
+        Servo robotClawServoLeft;
+        robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
+
+        Servo robotClawServoRight;
+        robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
         robotFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -55,6 +65,9 @@ public class teleOp extends LinearOpMode {
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        robotClawServoLeft.setPosition(0);
+        robotClawServoRight.setPosition(0);
+
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
         waitForStart();
@@ -68,6 +81,8 @@ public class teleOp extends LinearOpMode {
             driverStrafe = gamepad1.left_stick_x;
             driverSlow = gamepad1.right_bumper;
             coDriverLift = gamepad2.left_stick_y;
+            coDriverLeftClaw = gamepad2.left_bumper;
+            coDriverRightClaw = gamepad2.right_bumper;
 
             // computing the output values.
             if (driverSlow) {
@@ -86,6 +101,19 @@ public class teleOp extends LinearOpMode {
             robotBackLeftMotor.setPower(calcBackLeft);
             robotBackRightMotor.setPower(calcBackRight);
             robotLiftMotors.setPower(coDriverLift);
+
+            // Sending the power to the servos
+            if (coDriverLeftClaw){
+                robotClawServoLeft.setPosition(-0.25);
+            }else {
+                robotClawServoLeft.setPosition(0);
+            }
+
+            if (coDriverRightClaw){
+                robotClawServoRight.setPosition(0.25);
+            }else{
+                robotClawServoRight.setPosition(0);
+            }
         }
     }
 }
