@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "BlueAutoObv", group = "Robot")
-public class BlueAutoObv extends LinearOpMode {
+public class AutoRight extends LinearOpMode {
+    private static final double TICKS_PER_CM = 12.8;
+
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare computed variables that will be sent to the robot objects or used
@@ -32,8 +34,8 @@ public class BlueAutoObv extends LinearOpMode {
         DcMotor robotBackRightMotor;
         robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
 
-        DcMotor robotLiftMotors;
-        robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
+//        DcMotor robotLiftMotors;
+//        robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
 
         Servo robotClawServoLeft;
         robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
@@ -53,13 +55,13 @@ public class BlueAutoObv extends LinearOpMode {
         robotFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robotFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotFrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
+        //robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
 
         robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -74,28 +76,39 @@ public class BlueAutoObv extends LinearOpMode {
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        robotFrontLeftMotor.setTargetPosition(850);
-        robotFrontRightMotor.setTargetPosition(850);
-        robotBackLeftMotor.setTargetPosition(850);
-        robotBackRightMotor.setTargetPosition(850);
+
+
+        robotFrontLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+        robotFrontRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+        robotBackLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+        robotBackRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
 
         robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotBackRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        robotFrontLeftMotor.setPower(1);
-        robotFrontRightMotor.setPower(1);
-        robotBackLeftMotor.setPower(1);
-        robotBackRightMotor.setPower(1);
+        // Robot move to bar.
+        robotFrontLeftMotor.setPower(0.5);
+        robotFrontRightMotor.setPower(0.5);
+        robotBackLeftMotor.setPower(0.5);
+        robotBackRightMotor.setPower(0.5);
+        while (robotFrontLeftMotor.isBusy()){
 
+        }
         // To do:
         // Arm move up to bar.
         // Arm move down to hook the hook.
-        // Claw let go.
 
-        robotClawServoLeft.setPosition(-0.25);
+        //Claw lets go.
+        robotClawServoLeft.setPosition(0.75);
         robotClawServoRight.setPosition(0.25);
+
+        // Robot moves to the Obv.
+        robotFrontLeftMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
+        robotFrontRightMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
+        robotBackLeftMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
+        robotBackRightMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
