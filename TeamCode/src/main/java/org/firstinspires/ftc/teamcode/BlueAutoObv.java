@@ -1,6 +1,6 @@
 
 
-@Autonomous(name= "BlueAutoObv", group= "robot")
+@Autonomous(name = "BlueAutoObv", group = "Robot")
 
 public class BlueAutoObv extends LinearOpMode {
 
