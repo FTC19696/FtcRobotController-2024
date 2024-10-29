@@ -84,17 +84,24 @@ public class BlueAutoObv extends LinearOpMode {
         robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotBackRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        telemetry.addData("Starting at",  "%7d :%7d",
-                robotFrontLeftMotor.getCurrentPosition(),
-                robotFrontRightMotor.getCurrentPosition(),
-                robotBackLeftMotor.getCurrentPosition(),
-                robotBackRightMotor.getCurrentPosition());
-        telemetry.update();
+        robotFrontLeftMotor.setPower(1);
+        robotFrontRightMotor.setPower(1);
+        robotBackLeftMotor.setPower(1);
+        robotBackRightMotor.setPower(1);
+
+        // To do:
+        // Arm move up to bar.
+        // Arm move down to hook the hook.
+        // Claw let go.
+
+        robotClawServoLeft.setPosition(-0.25);
+        robotClawServoRight.setPosition(0.25);
+
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
         while (opModeIsActive()) {
 
-            // computing the output values.
+     //       // computing the output values.
 
 
             // Sending the power to the motors.

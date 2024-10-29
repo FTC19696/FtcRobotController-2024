@@ -102,18 +102,29 @@ public class ManualTeleOp extends LinearOpMode {
             robotBackRightMotor.setPower(calcBackRight);
             robotLiftMotors.setPower(coDriverLift);
 
-            // Sending the power to the servos
-            if (coDriverLeftClaw){
-                robotClawServoLeft.setPosition(-0.25);
+            if (gamepad2.left_bumper){
+                robotClawServoLeft.setPosition(0.75);
             }else {
-                robotClawServoLeft.setPosition(0);
+                robotClawServoLeft.setPosition(1);
             }
-
-            if (coDriverRightClaw){
+            if (gamepad2.right_bumper){
                 robotClawServoRight.setPosition(0.25);
-            }else{
+            }else {
                 robotClawServoRight.setPosition(0);
             }
-        }
-    }
+
+            // Sending the power to the servos
+//            if (coDriverLeftClaw){
+//                robotClawServoLeft.setPosition(-0.25);
+//            }else {
+//                robotClawServoLeft.setPosition(0);
+//            }
+//
+//            if (coDriverRightClaw){
+//                robotClawServoRight.setPosition(0.25);
+//            }else{
+//                robotClawServoRight.setPosition(0);
+//            }
+     }
+   }
 }
