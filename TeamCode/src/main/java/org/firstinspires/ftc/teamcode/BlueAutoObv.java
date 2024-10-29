@@ -43,6 +43,12 @@ public class BlueAutoObv extends LinearOpMode {
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
+
+        robotFrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotFrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotBackLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotBackRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         robotFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -55,21 +61,45 @@ public class BlueAutoObv extends LinearOpMode {
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotBackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
         robotClawServoLeft.setPosition(0);
         robotClawServoRight.setPosition(0);
 
         // Robot is fully initialized and waiting for start button to be pressed
-        // after autonomous is completed and teleop begins.
         waitForStart();
 
+        robotFrontLeftMotor.setTargetPosition(850);
+        robotFrontRightMotor.setTargetPosition(850);
+        robotBackLeftMotor.setTargetPosition(850);
+        robotBackRightMotor.setTargetPosition(850);
+
+        robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotBackRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        telemetry.addData("Starting at",  "%7d :%7d",
+                robotFrontLeftMotor.getCurrentPosition(),
+                robotFrontRightMotor.getCurrentPosition(),
+                robotBackLeftMotor.getCurrentPosition(),
+                robotBackRightMotor.getCurrentPosition());
+        telemetry.update();
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
         while (opModeIsActive()) {
-            // Reading the inputs.
 
             // computing the output values.
 
+
             // Sending the power to the motors.
+
+
         }
     }
 }
