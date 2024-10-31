@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "BlueAutoObv", group = "Robot")
+@Autonomous(name = "RightAuto", group = "Robot")
 public class AutoRight extends LinearOpMode {
     private static final double TICKS_PER_CM = 12.8;
 
@@ -96,6 +96,7 @@ public class AutoRight extends LinearOpMode {
         while (robotFrontLeftMotor.isBusy()){
 
         }
+        sleep(250);
         // To do:
         // Arm move up to bar.
         // Arm move down to hook the hook.
@@ -103,6 +104,7 @@ public class AutoRight extends LinearOpMode {
         //Claw lets go.
         robotClawServoLeft.setPosition(0.75);
         robotClawServoRight.setPosition(0.25);
+        sleep(250);
 
         // Robot moves to the Obv.
         robotFrontLeftMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
