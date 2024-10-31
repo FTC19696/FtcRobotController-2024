@@ -94,6 +94,7 @@ public class ManualTeleOp extends LinearOpMode {
             coDriverLift = gamepad2.left_stick_y;
             coDriverLeftClaw = gamepad2.left_bumper;
             coDriverRightClaw = gamepad2.right_bumper;
+            coDriverArm = gamepad2.right_stick_y;
 
             // computing the output values.
             if (driverSlow) {
@@ -139,7 +140,7 @@ public class ManualTeleOp extends LinearOpMode {
 //            }
 
             // Arm extender.
-            coDriverArm = gamepad2.right_stick_y;
+
             robotArmServo.setPower(coDriverArm);
 
             // Elbow motors.
@@ -166,6 +167,9 @@ public class ManualTeleOp extends LinearOpMode {
                 robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+
+            // Lift motors.
+            robotLiftMotors.setPower(coDriverLift);
      }
    }
 }
