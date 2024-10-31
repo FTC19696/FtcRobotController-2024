@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,6 +19,7 @@ public class ManualTeleOp extends LinearOpMode {
         double coDriverLift;
         boolean coDriverLeftClaw;
         boolean coDriverRightClaw;
+        double coDriverArm;
 
 
         // Declare computed variables that will be sent to the robot objects or used
@@ -50,6 +52,9 @@ public class ManualTeleOp extends LinearOpMode {
 
         Servo robotClawServoRight;
         robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+
+        CRServo robotArmServo;
+        robotArmServo =  hardwareMap.get(CRServo.class, "ArmServo");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
@@ -102,6 +107,7 @@ public class ManualTeleOp extends LinearOpMode {
             robotBackRightMotor.setPower(calcBackRight);
             robotLiftMotors.setPower(coDriverLift);
 
+            // Sending the power to the servos
             if (gamepad2.left_bumper){
                 robotClawServoLeft.setPosition(0.75);
             }else {
@@ -113,7 +119,7 @@ public class ManualTeleOp extends LinearOpMode {
                 robotClawServoRight.setPosition(0);
             }
 
-            // Sending the power to the servos
+            // Maybe toggle.
 //            if (coDriverLeftClaw){
 //                robotClawServoLeft.setPosition(-0.25);
 //            }else {
@@ -125,6 +131,11 @@ public class ManualTeleOp extends LinearOpMode {
 //            }else{
 //                robotClawServoRight.setPosition(0);
 //            }
+
+            // Arm extender.
+            coDriverArm = gamepad2.right_stick_y;
+            robotArmServo.setPower(coDriverArm);
+
      }
    }
 }
