@@ -56,6 +56,12 @@ public class ManualTeleOp extends LinearOpMode {
         CRServo robotArmServo;
         robotArmServo =  hardwareMap.get(CRServo.class, "ArmServo");
 
+        DcMotor robotElbowLeftMotor;
+        robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeftMotor");
+
+        DcMotor robotElbowRightMotor;
+        robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRightMotor");
+
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
         robotFrontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -136,6 +142,30 @@ public class ManualTeleOp extends LinearOpMode {
             coDriverArm = gamepad2.right_stick_y;
             robotArmServo.setPower(coDriverArm);
 
+            // Elbow motors.
+            // Rotating up.
+
+            if (gamepad2.dpad_up){
+                robotElbowLeftMotor.setTargetPosition((int) -20);
+                robotElbowRightMotor.setTargetPosition((int) 20);
+
+                robotElbowLeftMotor.setPower(0.5);
+                robotElbowRightMotor.setPower(0.5);
+
+                robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if (gamepad2.dpad_down){
+                robotElbowLeftMotor.setTargetPosition((int) 0);
+                robotElbowRightMotor.setTargetPosition((int) 0);
+
+                robotElbowLeftMotor.setPower(0.5);
+                robotElbowRightMotor.setPower(0.5);
+
+                robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
      }
    }
 }
