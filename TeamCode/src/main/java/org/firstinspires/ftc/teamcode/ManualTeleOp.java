@@ -17,11 +17,11 @@ public class ManualTeleOp extends LinearOpMode {
         double driverStrafe;
         boolean driverSlow;
         double coDriverLift;
-        boolean coDriverLeftClaw;
-        boolean coDriverRightClaw;
         double coDriverArm;
         boolean coDriverElbowUp;
         boolean coDriverElbowDown;
+        boolean coDriverLeftClaw;
+        boolean coDriverRightClaw;
 
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
@@ -38,11 +38,11 @@ public class ManualTeleOp extends LinearOpMode {
         DcMotor robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
         DcMotor robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
         DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
-        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
-        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
         CRServo robotArmServo = hardwareMap.get(CRServo.class, "ArmServo");
         DcMotor robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeftMotor");
         DcMotor robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRightMotor");
+        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
+        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
@@ -84,7 +84,6 @@ public class ManualTeleOp extends LinearOpMode {
             coDriverArm = gamepad2.right_stick_y;
             coDriverElbowUp = gamepad2.dpad_up;
             coDriverElbowDown = gamepad2.dpad_down;
-
 
             // computing the output values.
             if (driverSlow) {
@@ -133,20 +132,13 @@ public class ManualTeleOp extends LinearOpMode {
             robotArmServo.setPower(coDriverArm);
 
             // Elbow motors.
-            // Rotating up.
             if (coDriverElbowUp) {
                 robotElbowLeftMotor.setPower(1);
                 robotElbowRightMotor.setPower(1);
-            } else if (!coDriverElbowUp) {
-                robotElbowLeftMotor.setPower(0);
-                robotElbowRightMotor.setPower(0);
-            }
-
-            // Rotating down.
-            if (coDriverElbowDown) {
+            } else if (coDriverElbowDown) {
                 robotElbowLeftMotor.setPower(-0.25);
                 robotElbowRightMotor.setPower(-0.25);
-            } else if (!coDriverElbowDown) {
+            } else {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
             }
