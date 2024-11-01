@@ -21,7 +21,6 @@ public class ManualTeleOp extends LinearOpMode {
         boolean coDriverRightClaw;
         double coDriverArm;
 
-
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
         double calcFrontLeft;
@@ -32,35 +31,16 @@ public class ManualTeleOp extends LinearOpMode {
 
         // Robot objects that will be used to send commands to motors, servos, and
         // other on-robot devices that can be controlled remotely.
-        DcMotor robotFrontLeftMotor;
-        robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
-
-        DcMotor robotFrontRightMotor;
-        robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
-
-        DcMotor robotBackLeftMotor;
-        robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
-
-        DcMotor robotBackRightMotor;
-        robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
-
-        DcMotor robotLiftMotors;
-        robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
-
-        Servo robotClawServoLeft;
-        robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
-
-        Servo robotClawServoRight;
-        robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
-
-        CRServo robotArmServo;
-        robotArmServo =  hardwareMap.get(CRServo.class, "ArmServo");
-
-        DcMotor robotElbowLeftMotor;
-        robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeftMotor");
-
-        DcMotor robotElbowRightMotor;
-        robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRightMotor");
+        DcMotor robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
+        DcMotor robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
+        DcMotor robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
+        DcMotor robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
+        DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
+        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
+        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+        CRServo robotArmServo = hardwareMap.get(CRServo.class, "ArmServo");
+        DcMotor robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeftMotor");
+        DcMotor robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRightMotor");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
@@ -76,12 +56,13 @@ public class ManualTeleOp extends LinearOpMode {
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        robotClawServoLeft.setPosition(0);
-        robotClawServoRight.setPosition(0);
-
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
         waitForStart();
+
+        // Pre-position components to their initial location at the start of teleop
+        robotClawServoLeft.setPosition(0);
+        robotClawServoRight.setPosition(0);
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
@@ -115,14 +96,14 @@ public class ManualTeleOp extends LinearOpMode {
             robotLiftMotors.setPower(coDriverLift);
 
             // Sending the power to the servos
-            if (gamepad2.left_bumper){
+            if (gamepad2.left_bumper) {
                 robotClawServoLeft.setPosition(0.75);
-            }else {
+            } else {
                 robotClawServoLeft.setPosition(1);
             }
-            if (gamepad2.right_bumper){
+            if (gamepad2.right_bumper) {
                 robotClawServoRight.setPosition(0.25);
-            }else {
+            } else {
                 robotClawServoRight.setPosition(0);
             }
 
@@ -146,7 +127,7 @@ public class ManualTeleOp extends LinearOpMode {
             // Elbow motors.
             // Rotating up.
 
-            if (gamepad2.dpad_up){
+            if (gamepad2.dpad_up) {
                 robotElbowLeftMotor.setTargetPosition((int) -20);
                 robotElbowRightMotor.setTargetPosition((int) 20);
 
@@ -157,7 +138,7 @@ public class ManualTeleOp extends LinearOpMode {
                 robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
-            if (gamepad2.dpad_down){
+            if (gamepad2.dpad_down) {
                 robotElbowLeftMotor.setTargetPosition((int) 0);
                 robotElbowRightMotor.setTargetPosition((int) 0);
 
@@ -170,6 +151,6 @@ public class ManualTeleOp extends LinearOpMode {
 
             // Lift motors.
             robotLiftMotors.setPower(coDriverLift);
-     }
-   }
+        }
+    }
 }
