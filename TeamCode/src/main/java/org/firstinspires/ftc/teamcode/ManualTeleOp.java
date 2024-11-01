@@ -56,7 +56,7 @@ public class ManualTeleOp extends LinearOpMode {
         robotFrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotLiftMotors.setDirection(DcMotorSimple.Direction.FORWARD);
         robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -125,36 +125,29 @@ public class ManualTeleOp extends LinearOpMode {
 //            }
 
             // Arm extender.
-
             robotArmServo.setPower(coDriverArm);
 
             // Elbow motors.
             // Rotating up.
-
             if (gamepad2.dpad_up) {
-
                 robotElbowLeftMotor.setPower(1);
                 robotElbowRightMotor.setPower(1);
-
             } else if (!gamepad2.dpad_up) {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
             }
 
             // Rotating down.
-
             if (gamepad2.dpad_down) {
-
                 robotElbowLeftMotor.setPower(-0.25);
                 robotElbowRightMotor.setPower(-0.25);
-
             } else if (!gamepad2.dpad_down) {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
             }
 
             // Lift motors.
-            robotLiftMotors.setPower(-1 * coDriverLift);
+            robotLiftMotors.setPower(coDriverLift);
         }
     }
 }
