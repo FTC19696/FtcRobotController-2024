@@ -11,7 +11,7 @@ public class AutoLeft2 extends LinearOpMode {
     private static final double TICKS_PER_CM = 12.8;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         // Robot objects that will be used to send commands to motors, servos, and
         // other on-robot devices that can be controlled remotely.
         DcMotor robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");

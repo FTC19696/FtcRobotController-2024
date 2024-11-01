@@ -11,41 +11,19 @@ public class AutoRight extends LinearOpMode {
     private static final double TICKS_PER_CM = 12.8;
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        // Declare computed variables that will be sent to the robot objects or used
-        // in further computation.
-        double calcFrontLeft;
-        double calcFrontRight;
-        double calcBackLeft;
-        double calcBackRight;
-        double calcSpeedFactor;
-
+    public void runOpMode() {
         // Robot objects that will be used to send commands to motors, servos, and
         // other on-robot devices that can be controlled remotely.
-        DcMotor robotFrontLeftMotor;
-        robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
-
-        DcMotor robotFrontRightMotor;
-        robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
-
-        DcMotor robotBackLeftMotor;
-        robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
-
-        DcMotor robotBackRightMotor;
-        robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
-
-//        DcMotor robotLiftMotors;
-//        robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
-
-        Servo robotClawServoLeft;
-        robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
-
-        Servo robotClawServoRight;
-        robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+        DcMotor robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
+        DcMotor robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
+        DcMotor robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
+        DcMotor robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
+//      DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
+        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
+        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
 
         // Perform initialization of robot objects to make them ready to accept
-        // commands once the robot becomes active (start pressed).
-
+        // commands once the robot becomes active (start pressed)
         robotFrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotFrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotBackLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -68,15 +46,11 @@ public class AutoRight extends LinearOpMode {
         robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotBackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-
-        robotClawServoLeft.setPosition(0);
-        robotClawServoRight.setPosition(0);
-
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-
+        robotClawServoLeft.setPosition(0);
+        robotClawServoRight.setPosition(0);
 
         robotFrontLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
         robotFrontRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
@@ -93,10 +67,10 @@ public class AutoRight extends LinearOpMode {
         robotFrontRightMotor.setPower(0.5);
         robotBackLeftMotor.setPower(0.5);
         robotBackRightMotor.setPower(0.5);
-        while (robotFrontLeftMotor.isBusy()){
-
+        while (robotFrontLeftMotor.isBusy()) {
         }
         sleep(250);
+
         // To do:
         // Arm move up to bar.
         // Arm move down to hook the hook.
@@ -111,17 +85,5 @@ public class AutoRight extends LinearOpMode {
         robotFrontRightMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
         robotBackLeftMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
         robotBackRightMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
-
-        // Main polling loop. Continue to loop through the sequence of reading,
-        // computing, and transmitting commands back to the robot.
-        while (opModeIsActive()) {
-
-     //       // computing the output values.
-
-
-            // Sending the power to the motors.
-
-
-        }
     }
 }
