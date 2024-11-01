@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "RightAuto", group = "Robot")
+@Autonomous(name = "AutoRight", group = "Robot")
 public class AutoRight extends LinearOpMode {
     private static final double TICKS_PER_CM = 12.8;
 

@@ -128,8 +128,8 @@ public class ManualTeleOp extends LinearOpMode {
             // Rotating up.
 
             if (gamepad2.dpad_up) {
-                robotElbowLeftMotor.setTargetPosition((int) -20);
-                robotElbowRightMotor.setTargetPosition((int) 20);
+                robotElbowLeftMotor.setTargetPosition(-20);
+                robotElbowRightMotor.setTargetPosition(20);
 
                 robotElbowLeftMotor.setPower(0.5);
                 robotElbowRightMotor.setPower(0.5);
@@ -139,8 +139,8 @@ public class ManualTeleOp extends LinearOpMode {
             }
 
             if (gamepad2.dpad_down) {
-                robotElbowLeftMotor.setTargetPosition((int) 0);
-                robotElbowRightMotor.setTargetPosition((int) 0);
+                robotElbowLeftMotor.setTargetPosition(0);
+                robotElbowRightMotor.setTargetPosition(0);
 
                 robotElbowLeftMotor.setPower(0.5);
                 robotElbowRightMotor.setPower(0.5);
