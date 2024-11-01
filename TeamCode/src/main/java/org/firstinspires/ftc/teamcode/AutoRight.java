@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,9 +19,12 @@ public class AutoRight extends LinearOpMode {
         DcMotor robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
         DcMotor robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
         DcMotor robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
-//      DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
-        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
-        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+        DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "Lift");
+        DcMotor robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeft");
+        DcMotor robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRight");
+        CRServo robotArmServo = hardwareMap.get(CRServo.class, "Arm");
+        Servo robotClawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
+        Servo robotClawRightServo = hardwareMap.get(Servo.class, "ClawRight");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed)
@@ -49,8 +53,8 @@ public class AutoRight extends LinearOpMode {
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        robotClawServoLeft.setPosition(0);
-        robotClawServoRight.setPosition(0);
+        robotClawLeftServo.setPosition(0);
+        robotClawRightServo.setPosition(0);
 
         robotFrontLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
         robotFrontRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
@@ -76,8 +80,8 @@ public class AutoRight extends LinearOpMode {
         // Arm move down to hook the hook.
 
         //Claw lets go.
-        robotClawServoLeft.setPosition(0.75);
-        robotClawServoRight.setPosition(0.25);
+        robotClawLeftServo.setPosition(0.75);
+        robotClawRightServo.setPosition(0.25);
         sleep(250);
 
         // Robot moves to the Obv.

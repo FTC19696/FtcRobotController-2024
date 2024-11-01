@@ -37,12 +37,12 @@ public class ManualTeleOp extends LinearOpMode {
         DcMotor robotFrontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
         DcMotor robotBackLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
         DcMotor robotBackRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
-        DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "LiftMotors");
-        CRServo robotArmServo = hardwareMap.get(CRServo.class, "ArmServo");
-        DcMotor robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeftMotor");
-        DcMotor robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRightMotor");
-        Servo robotClawServoLeft = hardwareMap.get(Servo.class, "ClawServoLeft");
-        Servo robotClawServoRight = hardwareMap.get(Servo.class, "ClawServoRight");
+        DcMotor robotLiftMotors = hardwareMap.get(DcMotor.class, "Lift");
+        DcMotor robotElbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeft");
+        DcMotor robotElbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRight");
+        CRServo robotArmServo = hardwareMap.get(CRServo.class, "Arm");
+        Servo robotClawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
+        Servo robotClawRightServo = hardwareMap.get(Servo.class, "ClawRight");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
@@ -67,8 +67,8 @@ public class ManualTeleOp extends LinearOpMode {
         waitForStart();
 
         // Pre-position components to their initial location at the start of teleop
-        robotClawServoLeft.setPosition(0);
-        robotClawServoRight.setPosition(0);
+        robotClawLeftServo.setPosition(0);
+        robotClawRightServo.setPosition(0);
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
@@ -103,33 +103,8 @@ public class ManualTeleOp extends LinearOpMode {
             robotBackRightMotor.setPower(calcBackRight);
             robotLiftMotors.setPower(coDriverLift);
 
-            // Sending the power to the servos
-            if (coDriverLeftClaw) {
-                robotClawServoLeft.setPosition(0.75);
-            } else {
-                robotClawServoLeft.setPosition(1);
-            }
-            if (coDriverRightClaw) {
-                robotClawServoRight.setPosition(0.25);
-            } else {
-                robotClawServoRight.setPosition(0);
-            }
-
-            // Maybe toggle.
-//            if (coDriverLeftClaw){
-//                robotClawServoLeft.setPosition(-0.25);
-//            }else {
-//                robotClawServoLeft.setPosition(0);
-//            }
-//
-//            if (coDriverRightClaw){
-//                robotClawServoRight.setPosition(0.25);
-//            }else{
-//                robotClawServoRight.setPosition(0);
-//            }
-
-            // Arm extender.
-            robotArmServo.setPower(coDriverArm);
+            // Lift motors.
+            robotLiftMotors.setPower(coDriverLift);
 
             // Elbow motors.
             if (coDriverElbowUp) {
@@ -143,8 +118,33 @@ public class ManualTeleOp extends LinearOpMode {
                 robotElbowRightMotor.setPower(0);
             }
 
-            // Lift motors.
-            robotLiftMotors.setPower(coDriverLift);
+            // Arm extender.
+            robotArmServo.setPower(coDriverArm);
+
+            // Claw servos
+            if (coDriverLeftClaw) {
+                robotClawLeftServo.setPosition(0.75);
+            } else {
+                robotClawLeftServo.setPosition(1);
+            }
+            if (coDriverRightClaw) {
+                robotClawRightServo.setPosition(0.25);
+            } else {
+                robotClawRightServo.setPosition(0);
+            }
+
+            // Maybe toggle.
+//            if (coDriverLeftClaw){
+//                robotClawLeftServo.setPosition(-0.25);
+//            }else {
+//                robotClawLeftServo.setPosition(0);
+//            }
+//
+//            if (coDriverRightClaw){
+//                robotClawRightServo.setPosition(0.25);
+//            }else{
+//                robotClawRightServo.setPosition(0);
+//            }
         }
     }
 }
