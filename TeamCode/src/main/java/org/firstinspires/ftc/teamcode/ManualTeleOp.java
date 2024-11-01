@@ -20,6 +20,8 @@ public class ManualTeleOp extends LinearOpMode {
         boolean coDriverLeftClaw;
         boolean coDriverRightClaw;
         double coDriverArm;
+        boolean coDriverElbowUp;
+        boolean coDriverElbowDown;
 
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
@@ -80,6 +82,9 @@ public class ManualTeleOp extends LinearOpMode {
             coDriverLeftClaw = gamepad2.left_bumper;
             coDriverRightClaw = gamepad2.right_bumper;
             coDriverArm = gamepad2.right_stick_y;
+            coDriverElbowUp = gamepad2.dpad_up;
+            coDriverElbowDown = gamepad2.dpad_down;
+
 
             // computing the output values.
             if (driverSlow) {
@@ -100,12 +105,12 @@ public class ManualTeleOp extends LinearOpMode {
             robotLiftMotors.setPower(coDriverLift);
 
             // Sending the power to the servos
-            if (gamepad2.left_bumper) {
+            if (coDriverLeftClaw) {
                 robotClawServoLeft.setPosition(0.75);
             } else {
                 robotClawServoLeft.setPosition(1);
             }
-            if (gamepad2.right_bumper) {
+            if (coDriverRightClaw) {
                 robotClawServoRight.setPosition(0.25);
             } else {
                 robotClawServoRight.setPosition(0);
@@ -129,19 +134,19 @@ public class ManualTeleOp extends LinearOpMode {
 
             // Elbow motors.
             // Rotating up.
-            if (gamepad2.dpad_up) {
+            if (coDriverElbowUp) {
                 robotElbowLeftMotor.setPower(1);
                 robotElbowRightMotor.setPower(1);
-            } else if (!gamepad2.dpad_up) {
+            } else if (!coDriverElbowUp) {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
             }
 
             // Rotating down.
-            if (gamepad2.dpad_down) {
+            if (coDriverElbowDown) {
                 robotElbowLeftMotor.setPower(-0.25);
                 robotElbowRightMotor.setPower(-0.25);
-            } else if (!gamepad2.dpad_down) {
+            } else if (!coDriverElbowDown) {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
             }
