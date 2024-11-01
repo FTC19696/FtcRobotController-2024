@@ -49,12 +49,16 @@ public class ManualTeleOp extends LinearOpMode {
         robotBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robotElbowLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robotElbowRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robotFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotFrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
@@ -128,29 +132,29 @@ public class ManualTeleOp extends LinearOpMode {
             // Rotating up.
 
             if (gamepad2.dpad_up) {
-                robotElbowLeftMotor.setTargetPosition(-20);
-                robotElbowRightMotor.setTargetPosition(20);
 
-                robotElbowLeftMotor.setPower(0.5);
-                robotElbowRightMotor.setPower(0.5);
+                robotElbowLeftMotor.setPower(1);
+                robotElbowRightMotor.setPower(1);
 
-                robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (!gamepad2.dpad_up) {
+                robotElbowLeftMotor.setPower(0);
+                robotElbowRightMotor.setPower(0);
             }
 
+            // Rotating down.
+
             if (gamepad2.dpad_down) {
-                robotElbowLeftMotor.setTargetPosition(0);
-                robotElbowRightMotor.setTargetPosition(0);
 
-                robotElbowLeftMotor.setPower(0.5);
-                robotElbowRightMotor.setPower(0.5);
+                robotElbowLeftMotor.setPower(-0.25);
+                robotElbowRightMotor.setPower(-0.25);
 
-                robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            } else if (!gamepad2.dpad_down) {
+                robotElbowLeftMotor.setPower(0);
+                robotElbowRightMotor.setPower(0);
             }
 
             // Lift motors.
-            robotLiftMotors.setPower(coDriverLift);
+            robotLiftMotors.setPower(-1 * coDriverLift);
         }
     }
 }
