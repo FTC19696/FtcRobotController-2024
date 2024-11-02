@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "TeleOp", group ="Linear Opmode" )
-public class ManualTeleOp extends LinearOpMode {
+public class TeleOpManual extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
         // Declare driver and sensor inputs read from the joysticks and devices on the robot.
         double driverForward;
         double driverRotate;

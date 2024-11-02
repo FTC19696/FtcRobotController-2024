@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AutoLeft2", group = "Robot")
-public class AutoLeft2 extends LinearOpMode {
+@Autonomous(name = "AutoLeft-Scott", group = "Sample")
+public class AutoLeftScott extends LinearOpMode {
     @Override
     public void runOpMode() {
         TechnicalStuff5 ts5 = new TechnicalStuff5(hardwareMap);

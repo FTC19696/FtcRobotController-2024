@@ -35,6 +35,30 @@ public class TechnicalStuff5 {
         configureMotors();
     }
 
+    public void driveParametric(double forward, double rotate, double strafe, boolean slow){
+        double calcFrontLeft;
+        double calcFrontRight;
+        double calcBackLeft;
+        double calcBackRight;
+        double calcSpeedFactor;
+
+        if (slow) {
+            calcSpeedFactor = 0.3;
+        } else {
+            calcSpeedFactor = 1.0;
+        }
+        calcFrontLeft = (forward + rotate + strafe) * calcSpeedFactor;
+        calcFrontRight = (forward - rotate - strafe) * calcSpeedFactor;
+        calcBackLeft = (forward + rotate - strafe) * calcSpeedFactor;
+        calcBackRight = (forward - rotate + strafe) * calcSpeedFactor;
+
+        // Send power to drive motors.
+        frontLeftMotor.setPower(calcFrontLeft);
+        frontRightMotor.setPower(calcFrontRight);
+        backLeftMotor.setPower(calcBackLeft);
+        backRightMotor.setPower(calcBackRight);
+    }
+
     public void driveForward(int distanceCentimeters, double power) {
         stop();
 
@@ -89,11 +113,17 @@ public class TechnicalStuff5 {
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        elbowLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        elbowRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftMotors.setDirection(DcMotorSimple.Direction.FORWARD);
+        elbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        elbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
