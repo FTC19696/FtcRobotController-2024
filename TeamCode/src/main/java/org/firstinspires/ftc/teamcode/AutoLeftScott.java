@@ -18,7 +18,7 @@ public class AutoLeftScott extends LinearOpMode {
         ts5.driveForward(85, 0.5);
 
         // Robot strafes left.
-        ts5.strafeLeft(97, 0.5);
+        ts5.strafeRight(-97, 0.5);
 
         // Robot goes forward.
         ts5.driveForward(90, 0.5);

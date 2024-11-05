@@ -20,7 +20,12 @@ public class TechnicalStuff5 {
     public Servo clawLeftServo;
     public Servo clawRightServo;
 
-    public TechnicalStuff5(HardwareMap hardwareMap){
+    public TechnicalStuff5(HardwareMap hardwareMap) {
+        if (hardwareMap == null)
+            throw new IllegalArgumentException("Attempted to construct TechnicalStuff5 object using" +
+                    "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                    "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
         frontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
         frontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
         backLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
@@ -35,7 +40,7 @@ public class TechnicalStuff5 {
         configureMotors();
     }
 
-    public void driveParametric(double forward, double rotate, double strafe, boolean slow){
+    public void driveParametric(double forward, double rotate, double strafe, boolean slow) {
         double calcFrontLeft;
         double calcFrontRight;
         double calcBackLeft;
@@ -60,47 +65,33 @@ public class TechnicalStuff5 {
     }
 
     public void driveForward(int distanceCentimeters, double power) {
-        stop();
+        driveStop();
 
-        frontLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        frontRightMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        backLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        backRightMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-
-        moveToTarget(power);
-    }
-
-    public void strafeLeft(int distanceCentimeters, double power) {
-        stop();
-
-        frontLeftMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-        frontRightMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        backLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        backRightMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-
-        moveToTarget(power);
+        driveToProportionalTarget(power,
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (distanceCentimeters * TICKS_PER_CM));
     }
 
     public void strafeRight(int distanceCentimeters, double power) {
-        stop();
+        driveStop();
 
-        frontLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        frontRightMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-        backLeftMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-        backRightMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-
-        moveToTarget(power);
+        driveToProportionalTarget(power,
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                (int) (distanceCentimeters * TICKS_PER_CM));
     }
 
     public void rotateRight(int distanceCentimeters, double power) {
-        stop();
+        driveStop();
 
-        frontLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        frontRightMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-        backLeftMotor.setTargetPosition((int) (distanceCentimeters * TICKS_PER_CM));
-        backRightMotor.setTargetPosition((int) (-1 * distanceCentimeters * TICKS_PER_CM));
-
-        moveToTarget(power);
+        driveToProportionalTarget(power,
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                (int) (distanceCentimeters * TICKS_PER_CM),
+                (int) (-1 * distanceCentimeters * TICKS_PER_CM));
     }
 
     private void configureMotors() {
@@ -131,14 +122,19 @@ public class TechnicalStuff5 {
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    private void stop() {
+    private void driveStop() {
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    private void moveToTarget(double power) {
+    private void driveToProportionalTarget(double power, int frontLeft, int frontRight, int backLeft, int backRight) {
+        frontLeftMotor.setTargetPosition(frontLeft);
+        frontRightMotor.setTargetPosition(frontRight);
+        backLeftMotor.setTargetPosition(backLeft);
+        backRightMotor.setTargetPosition(backRight);
+
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

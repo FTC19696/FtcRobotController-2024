@@ -13,7 +13,7 @@ public class TeleOpManualScott extends LinearOpMode {
     public void runOpMode() {
         TechnicalStuff5 ts5 = new TechnicalStuff5(hardwareMap);
 
-        // Declare driver and sensor inputs read from the joysticks and devices on the robot.
+        // Declare driver and sensor inputs read from the joysticks and sensors on the robot.
         double driverForward;
         double driverRotate;
         double driverStrafe;
@@ -48,13 +48,13 @@ public class TeleOpManualScott extends LinearOpMode {
             coDriverElbowUp = gamepad2.dpad_up;
             coDriverElbowDown = gamepad2.dpad_down;
 
-            // Chassis drive motors.
+            // Chassis drive motors
             ts5.driveParametric(driverForward, driverRotate, driverStrafe, driverSlow);
 
-            // Lift motors.
+            // Lift motors
             ts5.liftMotors.setPower(coDriverLift);
 
-            // Elbow motors.
+            // Elbow motors
             if (coDriverElbowUp) {
                 ts5.elbowLeftMotor.setPower(1);
                 ts5.elbowRightMotor.setPower(1);
@@ -66,7 +66,7 @@ public class TeleOpManualScott extends LinearOpMode {
                 ts5.elbowRightMotor.setPower(0);
             }
 
-            // Arm extender.
+            // Arm extender
             ts5.armServo.setPower(coDriverArm);
 
             // Claw servos
