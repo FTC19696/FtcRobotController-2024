@@ -50,16 +50,23 @@ public class AutoRight extends LinearOpMode {
         robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotBackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        robotClawLeftServo.setPosition(0.5);
+        robotClawRightServo.setPosition(0.5);
+
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        robotClawLeftServo.setPosition(0);
-        robotClawRightServo.setPosition(0);
 
-        robotFrontLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
-        robotFrontRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
-        robotBackLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
-        robotBackRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+
+//        robotFrontLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+//        robotFrontRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+//        robotBackLeftMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+//        robotBackRightMotor.setTargetPosition((int) (85 * TICKS_PER_CM));
+
+        robotFrontLeftMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
+        robotFrontRightMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
+        robotBackLeftMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
+        robotBackRightMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
 
         robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -80,14 +87,13 @@ public class AutoRight extends LinearOpMode {
         // Arm move down to hook the hook.
 
         //Claw lets go.
-        robotClawLeftServo.setPosition(0.75);
-        robotClawRightServo.setPosition(0.25);
-        sleep(250);
+//        robotClawLeftServo.setPosition(0.75);
+//        robotClawRightServo.setPosition(0.25);
+//        sleep(250);
 
         // Robot moves to the Obv.
-        robotFrontLeftMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
-        robotFrontRightMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
-        robotBackLeftMotor.setTargetPosition((int) (-180 * TICKS_PER_CM));
-        robotBackRightMotor.setTargetPosition((int) (180 * TICKS_PER_CM));
+
+        while (robotFrontLeftMotor.isBusy()) {
+        }
     }
 }
