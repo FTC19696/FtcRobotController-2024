@@ -7,18 +7,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class TechnicalStuff5 {
-    private static final double TICKS_PER_CM = 12.8;
-
-    public DcMotor frontLeftMotor;
-    public DcMotor frontRightMotor;
-    public DcMotor backLeftMotor;
-    public DcMotor backRightMotor;
-    public DcMotor liftMotors;
-    public DcMotor elbowLeftMotor;
-    public DcMotor elbowRightMotor;
-    public CRServo armServo;
-    public Servo clawLeftServo;
-    public Servo clawRightServo;
+    public Chassis chassis;
+    public Lift lift;
+    public Elbow elbow;
+    public Arm arm;
+    public Claw claw;
 
     public TechnicalStuff5(HardwareMap hardwareMap) {
         if (hardwareMap == null)
@@ -26,131 +19,221 @@ public class TechnicalStuff5 {
                     "an uninitialized HardwareMap. Make sure to call this constructor only from" +
                     "an OpMode after initialization (ex. from inside the runOpMode() method).");
 
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
-        backRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
-        liftMotors = hardwareMap.get(DcMotor.class, "Lift");
-        elbowLeftMotor = hardwareMap.get(DcMotor.class, "ElbowLeft");
-        elbowRightMotor = hardwareMap.get(DcMotor.class, "ElbowRight");
-        armServo = hardwareMap.get(CRServo.class, "Arm");
-        clawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
-        clawRightServo = hardwareMap.get(Servo.class, "ClawRight");
-
-        configureMotors();
+        chassis = new Chassis(hardwareMap);
+        lift = new Lift(hardwareMap);
+        elbow = new Elbow(hardwareMap);
+        arm = new Arm(hardwareMap);
+        claw = new Claw(hardwareMap);
     }
 
-    public void driveParametric(double forward, double rotate, double strafe, boolean slow) {
-        double calcFrontLeft;
-        double calcFrontRight;
-        double calcBackLeft;
-        double calcBackRight;
-        double calcSpeedFactor;
+    // region Nested Classes
 
-        if (slow) {
-            calcSpeedFactor = 0.3;
-        } else {
-            calcSpeedFactor = 1.0;
+    public class Chassis {
+        private static final double TICKS_PER_CM = 12.8;
+
+        public DcMotor frontLeftMotor;
+        public DcMotor frontRightMotor;
+        public DcMotor backLeftMotor;
+        public DcMotor backRightMotor;
+
+        public Chassis(HardwareMap hardwareMap) {
+            if (hardwareMap == null)
+                throw new IllegalArgumentException("Attempted to construct Chassis object using" +
+                        "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                        "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
+            frontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
+            frontRightMotor = hardwareMap.get(DcMotor.class, "FrontRight");
+            backLeftMotor = hardwareMap.get(DcMotor.class, "BackLeft");
+            backRightMotor = hardwareMap.get(DcMotor.class, "BackRight");
+
+            configureMotors();
         }
-        calcFrontLeft = (forward + rotate + strafe) * calcSpeedFactor;
-        calcFrontRight = (forward - rotate - strafe) * calcSpeedFactor;
-        calcBackLeft = (forward + rotate - strafe) * calcSpeedFactor;
-        calcBackRight = (forward - rotate + strafe) * calcSpeedFactor;
 
-        // Send power to drive motors.
-        frontLeftMotor.setPower(calcFrontLeft);
-        frontRightMotor.setPower(calcFrontRight);
-        backLeftMotor.setPower(calcBackLeft);
-        backRightMotor.setPower(calcBackRight);
-    }
+        public void driveParametric(double forward, double rotate, double strafe, boolean slow) {
+            double calcFrontLeft;
+            double calcFrontRight;
+            double calcBackLeft;
+            double calcBackRight;
+            double calcSpeedFactor;
 
-    public void driveForward(int distanceCentimeters, double power) {
-        driveStop();
+            if (slow) {
+                calcSpeedFactor = 0.3;
+            } else {
+                calcSpeedFactor = 1.0;
+            }
+            calcFrontLeft = (forward + rotate + strafe) * calcSpeedFactor;
+            calcFrontRight = (forward - rotate - strafe) * calcSpeedFactor;
+            calcBackLeft = (forward + rotate - strafe) * calcSpeedFactor;
+            calcBackRight = (forward - rotate + strafe) * calcSpeedFactor;
 
-        driveToProportionalTarget(power,
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (distanceCentimeters * TICKS_PER_CM));
-    }
+            // Send power to drive motors.
+            frontLeftMotor.setPower(calcFrontLeft);
+            frontRightMotor.setPower(calcFrontRight);
+            backLeftMotor.setPower(calcBackLeft);
+            backRightMotor.setPower(calcBackRight);
+        }
 
-    public void strafeRight(int distanceCentimeters, double power) {
-        driveStop();
+        public void driveForward(int distanceCentimeters, double power) {
+            driveStop();
 
-        driveToProportionalTarget(power,
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
-                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
-                (int) (distanceCentimeters * TICKS_PER_CM));
-    }
+            driveToProportionalTarget(power,
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (distanceCentimeters * TICKS_PER_CM));
+        }
 
-    public void rotateRight(int distanceCentimeters, double power) {
-        driveStop();
+        public void strafeRight(int distanceCentimeters, double power) {
+            driveStop();
 
-        driveToProportionalTarget(power,
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (-1 * distanceCentimeters * TICKS_PER_CM),
-                (int) (distanceCentimeters * TICKS_PER_CM),
-                (int) (-1 * distanceCentimeters * TICKS_PER_CM));
-    }
+            driveToProportionalTarget(power,
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                    (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                    (int) (distanceCentimeters * TICKS_PER_CM));
+        }
 
-    private void configureMotors() {
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        public void rotateClockwise(int distanceCentimeters, double power) {
+            driveStop();
 
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        elbowLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        elbowRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            driveToProportionalTarget(power,
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (-1 * distanceCentimeters * TICKS_PER_CM),
+                    (int) (distanceCentimeters * TICKS_PER_CM),
+                    (int) (-1 * distanceCentimeters * TICKS_PER_CM));
+        }
 
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftMotors.setDirection(DcMotorSimple.Direction.FORWARD);
-        elbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        elbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        private void configureMotors() {
+            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
+            frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-    private void driveStop() {
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
+            frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    private void driveToProportionalTarget(double power, int frontLeft, int frontRight, int backLeft, int backRight) {
-        frontLeftMotor.setTargetPosition(frontLeft);
-        frontRightMotor.setTargetPosition(frontRight);
-        backLeftMotor.setTargetPosition(backLeft);
-        backRightMotor.setTargetPosition(backRight);
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        private void driveStop() {
+            frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
 
-        frontLeftMotor.setPower(power);
-        frontRightMotor.setPower(power);
-        backLeftMotor.setPower(power);
-        backRightMotor.setPower(power);
+        private void driveToProportionalTarget(double power, int frontLeft, int frontRight, int backLeft, int backRight) {
+            frontLeftMotor.setTargetPosition(frontLeft);
+            frontRightMotor.setTargetPosition(frontRight);
+            backLeftMotor.setTargetPosition(backLeft);
+            backRightMotor.setTargetPosition(backRight);
 
-        while (frontLeftMotor.isBusy() | frontRightMotor.isBusy() | backLeftMotor.isBusy() | backRightMotor.isBusy()) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            frontLeftMotor.setPower(power);
+            frontRightMotor.setPower(power);
+            backLeftMotor.setPower(power);
+            backRightMotor.setPower(power);
+
+            while (frontLeftMotor.isBusy() | frontRightMotor.isBusy() | backLeftMotor.isBusy() | backRightMotor.isBusy()) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
     }
+
+    public class Lift {
+        public DcMotor motors;
+
+        public Lift(HardwareMap hardwareMap) {
+            if (hardwareMap == null)
+                throw new IllegalArgumentException("Attempted to construct TechnicalStuff5 object using" +
+                        "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                        "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
+            chassis = new Chassis(hardwareMap);
+
+            motors = hardwareMap.get(DcMotor.class, "Lift");
+
+            configureMotors();
+        }
+
+        private void configureMotors() {
+            motors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            motors.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+    }
+
+    public class Elbow {
+        public DcMotor leftMotor;
+        public DcMotor rightMotor;
+
+        public Elbow(HardwareMap hardwareMap) {
+            if (hardwareMap == null)
+                throw new IllegalArgumentException("Attempted to construct TechnicalStuff5 object using" +
+                        "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                        "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
+            leftMotor = hardwareMap.get(DcMotor.class, "ElbowLeft");
+            rightMotor = hardwareMap.get(DcMotor.class, "ElbowRight");
+
+            configureMotors();
+        }
+
+        private void configureMotors() {
+            leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+            leftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
+    }
+
+    public class Arm {
+        public CRServo extensionServo;
+
+        public Arm(HardwareMap hardwareMap) {
+            if (hardwareMap == null)
+                throw new IllegalArgumentException("Attempted to construct TechnicalStuff5 object using" +
+                        "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                        "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
+            extensionServo = hardwareMap.get(CRServo.class, "Arm");
+        }
+    }
+
+    public class Claw {
+        public Servo leftServo;
+        public Servo rightServo;
+
+        public Claw(HardwareMap hardwareMap) {
+            if (hardwareMap == null)
+                throw new IllegalArgumentException("Attempted to construct TechnicalStuff5 object using" +
+                        "an uninitialized HardwareMap. Make sure to call this constructor only from" +
+                        "an OpMode after initialization (ex. from inside the runOpMode() method).");
+
+            leftServo = hardwareMap.get(Servo.class, "ClawLeft");
+            rightServo = hardwareMap.get(Servo.class, "ClawRight");
+        }
+    }
+
+    // endregion
 }

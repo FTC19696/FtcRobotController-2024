@@ -30,8 +30,8 @@ public class TeleOpManualScott extends LinearOpMode {
         waitForStart();
 
         // Pre-position components to their initial location at the start of teleop
-        ts5.clawLeftServo.setPosition(0);
-        ts5.clawRightServo.setPosition(0);
+        ts5.claw.leftServo.setPosition(0);
+        ts5.claw.rightServo.setPosition(0);
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
@@ -49,36 +49,36 @@ public class TeleOpManualScott extends LinearOpMode {
             coDriverElbowDown = gamepad2.dpad_down;
 
             // Chassis drive motors
-            ts5.driveParametric(driverForward, driverRotate, driverStrafe, driverSlow);
+            ts5.chassis.driveParametric(driverForward, driverRotate, driverStrafe, driverSlow);
 
             // Lift motors
-            ts5.liftMotors.setPower(coDriverLift);
+            ts5.lift.motors.setPower(coDriverLift);
 
             // Elbow motors
             if (coDriverElbowUp) {
-                ts5.elbowLeftMotor.setPower(1);
-                ts5.elbowRightMotor.setPower(1);
+                ts5.elbow.leftMotor.setPower(1);
+                ts5.elbow.rightMotor.setPower(1);
             } else if (coDriverElbowDown) {
-                ts5.elbowLeftMotor.setPower(-0.25);
-                ts5.elbowRightMotor.setPower(-0.25);
+                ts5.elbow.leftMotor.setPower(-0.25);
+                ts5.elbow.rightMotor.setPower(-0.25);
             } else {
-                ts5.elbowLeftMotor.setPower(0);
-                ts5.elbowRightMotor.setPower(0);
+                ts5.elbow.leftMotor.setPower(0);
+                ts5.elbow.rightMotor.setPower(0);
             }
 
             // Arm extender
-            ts5.armServo.setPower(coDriverArm);
+            ts5.arm.extensionServo.setPower(coDriverArm);
 
             // Claw servos
             if (coDriverLeftClaw) {
-                ts5.clawLeftServo.setPosition(0.75);
+                ts5.claw.leftServo.setPosition(0.75);
             } else {
-                ts5.clawLeftServo.setPosition(1);
+                ts5.claw.leftServo.setPosition(1);
             }
             if (coDriverRightClaw) {
-                ts5.clawRightServo.setPosition(0.25);
+                ts5.claw.rightServo.setPosition(0.25);
             } else {
-                ts5.clawRightServo.setPosition(0);
+                ts5.claw.rightServo.setPosition(0);
             }
         }
     }
