@@ -52,11 +52,11 @@ public class TeleOpManualScott extends LinearOpMode {
 
             // Elbow motors
             if (coDriverElbowUp) {
-                ts5.elbow.leftMotor.setPower(1);
-                ts5.elbow.rightMotor.setPower(1);
+                ts5.elbow.leftMotor.setPower(0.5);
+                ts5.elbow.rightMotor.setPower(0.5);
             } else if (coDriverElbowDown) {
-                ts5.elbow.leftMotor.setPower(-0.25);
-                ts5.elbow.rightMotor.setPower(-0.25);
+                ts5.elbow.leftMotor.setPower(-0.4);
+                ts5.elbow.rightMotor.setPower(-0.4);
             } else {
                 ts5.elbow.leftMotor.setPower(0);
                 ts5.elbow.rightMotor.setPower(0);
