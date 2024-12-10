@@ -28,7 +28,7 @@ public class TechnicalStuff5 {
 
     // region Nested Classes
 
-    public class Chassis {
+    public static class Chassis {
         private static final double TICKS_PER_CM = 12.8;
 
         public DcMotor frontLeftMotor;
@@ -182,7 +182,7 @@ public class TechnicalStuff5 {
         }
     }
 
-    public class Elbow {
+    public static class Elbow {
         public DcMotor leftMotor;
         public DcMotor rightMotor;
 
@@ -207,7 +207,7 @@ public class TechnicalStuff5 {
         }
     }
 
-    public class Arm {
+    public static class Arm {
         public CRServo extensionServo;
 
         public Arm(HardwareMap hardwareMap) {
@@ -220,7 +220,7 @@ public class TechnicalStuff5 {
         }
     }
 
-    public class Claw {
+    public static class Claw {
         public Servo leftServo;
         public Servo rightServo;
 
