@@ -33,10 +33,10 @@ public class TechnicalStuff5 {
     public static class Chassis {
         private static final double TICKS_PER_CM = 12.8;
 
-        public DcMotor frontLeftMotor;
-        public DcMotor frontRightMotor;
-        public DcMotor backLeftMotor;
-        public DcMotor backRightMotor;
+        private final DcMotor frontLeftMotor;
+        private final DcMotor frontRightMotor;
+        private final DcMotor backLeftMotor;
+        private final DcMotor backRightMotor;
 
         public Chassis(HardwareMap hardwareMap) {
             if (hardwareMap == null)
@@ -166,7 +166,7 @@ public class TechnicalStuff5 {
     // region Lift Class
 
     public class Lift {
-        public DcMotor motors;
+        private final DcMotor motors;
 
         public Lift(HardwareMap hardwareMap) {
             if (hardwareMap == null)
@@ -181,6 +181,10 @@ public class TechnicalStuff5 {
             configureMotors();
         }
 
+        public void raise(double power) {
+            motors.setPower(power);
+        }
+
         private void configureMotors() {
             motors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -193,8 +197,8 @@ public class TechnicalStuff5 {
     // region Elbow Class
 
     public static class Elbow {
-        public DcMotor leftMotor;
-        public DcMotor rightMotor;
+        private final DcMotor leftMotor;
+        private final DcMotor rightMotor;
 
         public Elbow(HardwareMap hardwareMap) {
             if (hardwareMap == null)
@@ -206,6 +210,11 @@ public class TechnicalStuff5 {
             rightMotor = hardwareMap.get(DcMotor.class, "ElbowRight");
 
             configureMotors();
+        }
+
+        public void raise(double power) {
+            leftMotor.setPower(power);
+            rightMotor.setPower(power);
         }
 
         private void configureMotors() {
@@ -222,7 +231,7 @@ public class TechnicalStuff5 {
     // region Arm Class
 
     public static class Arm {
-        public CRServo extensionServo;
+        private final CRServo extensionServo;
 
         public Arm(HardwareMap hardwareMap) {
             if (hardwareMap == null)
@@ -232,6 +241,10 @@ public class TechnicalStuff5 {
 
             extensionServo = hardwareMap.get(CRServo.class, "Arm");
         }
+
+        public void extend(double power) {
+            extensionServo.setPower(power);
+        }
     }
 
     // endregion
@@ -239,8 +252,8 @@ public class TechnicalStuff5 {
     // region Claw Class
 
     public static class Claw {
-        public Servo leftServo;
-        public Servo rightServo;
+        private final Servo leftServo;
+        private final Servo rightServo;
 
         public Claw(HardwareMap hardwareMap) {
             if (hardwareMap == null)
@@ -250,6 +263,11 @@ public class TechnicalStuff5 {
 
             leftServo = hardwareMap.get(Servo.class, "ClawLeft");
             rightServo = hardwareMap.get(Servo.class, "ClawRight");
+        }
+
+        public void setPosition(double left, double right){
+            leftServo.setPosition(left);
+            rightServo.setPosition(right);
         }
     }
 

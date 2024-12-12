@@ -12,8 +12,7 @@ public class AutoLeftScott extends LinearOpMode {
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        ts5.claw.leftServo.setPosition(0);
-        ts5.claw.rightServo.setPosition(0);
+        ts5.claw.setPosition(0, 0);
 
         ts5.chassis.driveForward(85, 0.5);
 

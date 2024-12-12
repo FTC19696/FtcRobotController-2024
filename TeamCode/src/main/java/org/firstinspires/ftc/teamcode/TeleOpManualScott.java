@@ -26,8 +26,7 @@ public class TeleOpManualScott extends LinearOpMode {
         waitForStart();
 
         // Pre-position components to their initial location at the start of teleop
-        ts5.claw.leftServo.setPosition(0);
-        ts5.claw.rightServo.setPosition(0);
+        ts5.claw.setPosition(0, 0);
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
@@ -48,34 +47,22 @@ public class TeleOpManualScott extends LinearOpMode {
             ts5.chassis.driveParametric(driverForward, driverRotate, driverStrafe, driverSlow);
 
             // Lift motors
-            ts5.lift.motors.setPower(coDriverLift);
+            ts5.lift.raise(coDriverLift);
 
             // Elbow motors
             if (coDriverElbowUp) {
-                ts5.elbow.leftMotor.setPower(0.5);
-                ts5.elbow.rightMotor.setPower(0.5);
+                ts5.elbow.raise(0.5);
             } else if (coDriverElbowDown) {
-                ts5.elbow.leftMotor.setPower(-0.4);
-                ts5.elbow.rightMotor.setPower(-0.4);
+                ts5.elbow.raise(-0.4);
             } else {
-                ts5.elbow.leftMotor.setPower(0);
-                ts5.elbow.rightMotor.setPower(0);
+                ts5.elbow.raise(0);
             }
 
             // Arm extender
-            ts5.arm.extensionServo.setPower(coDriverArm);
+            ts5.arm.extend(coDriverArm);
 
             // Claw servos
-            if (coDriverLeftClaw) {
-                ts5.claw.leftServo.setPosition(0.75);
-            } else {
-                ts5.claw.leftServo.setPosition(1);
-            }
-            if (coDriverRightClaw) {
-                ts5.claw.rightServo.setPosition(0.25);
-            } else {
-                ts5.claw.rightServo.setPosition(0);
-            }
+            ts5.claw.setPosition(coDriverLeftClaw?0.75:1.0, coDriverRightClaw?0.25:0.0);
         }
     }
 }
