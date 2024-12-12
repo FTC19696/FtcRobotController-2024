@@ -60,7 +60,7 @@ public class TeleOpManual extends LinearOpMode {
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotLiftMotors.setDirection(DcMotorSimple.Direction.FORWARD);
         robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        robotElbowRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
