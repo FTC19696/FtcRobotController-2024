@@ -62,13 +62,15 @@ public class TeleOpManual extends LinearOpMode {
         robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        robotClawLeftServo.setPosition(0.6);
+        robotClawRightServo.setPosition(0.4);
+
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
         waitForStart();
 
         // Pre-position components to their initial location at the start of teleop
-        robotClawLeftServo.setPosition(0);
-        robotClawRightServo.setPosition(0);
+
 
         // Main polling loop. Continue to loop through the sequence of reading,
         // computing, and transmitting commands back to the robot.
