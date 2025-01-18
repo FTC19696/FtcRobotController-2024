@@ -12,7 +12,7 @@ public class AutoLeft extends LinearOpMode {
     private static final double TICKS_PER_CM = 12.8;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         // Robot objects that will be used to send commands to motors, servos, and
         // other on-robot devices that can be controlled remotely.
         DcMotor robotFrontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeft");
@@ -37,24 +37,45 @@ public class AutoLeft extends LinearOpMode {
         robotFrontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         robotBackRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robotLiftMotors.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         robotFrontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotFrontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         robotBackLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotBackRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        //robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotLiftMotors.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         robotFrontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotFrontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotBackLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robotBackRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotLiftMotors.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        robotClawLeftServo.setPosition(0);
-        robotClawRightServo.setPosition(0);
+        // lift goes up.
+        robotLiftMotors.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robotLiftMotors.setTargetPosition((int) (80 * TICKS_PER_CM));
+
+        robotLiftMotors.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robotLiftMotors.setPower(1);
+
+        while (robotLiftMotors.isBusy()) {
+        }
+
+        sleep(250);
+
+        robotClawLeftServo.setPosition(0.6);
+        robotClawRightServo.setPosition(0.4);
+
+        sleep(250);
 
         robotFrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robotFrontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -139,6 +160,23 @@ public class AutoLeft extends LinearOpMode {
         while (robotFrontLeftMotor.isBusy()) {
         }
         sleep(250);
+
+        //arm goes up.
+        robotElbowLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robotElbowRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robotElbowLeftMotor.setTargetPosition((int) (20 * TICKS_PER_CM));
+        robotElbowRightMotor.setTargetPosition((int) (20 * TICKS_PER_CM));
+
+        robotElbowLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robotElbowRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robotElbowLeftMotor.setPower(1);
+        robotElbowRightMotor.setPower(1);
+
+        while (robotElbowLeftMotor.isBusy()) {
+        }
+
 
         // Robot goes forward.
         robotFrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

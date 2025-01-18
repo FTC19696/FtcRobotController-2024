@@ -43,6 +43,8 @@ public class TeleOpManual extends LinearOpMode {
         CRServo robotArmServo = hardwareMap.get(CRServo.class, "Arm");
         Servo robotClawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
         Servo robotClawRightServo = hardwareMap.get(Servo.class, "ClawRight");
+        Servo robotDifferentialLeftServo = hardwareMap.get(Servo.class, "DifferentialLeft");
+        Servo robotDifferentialRightServo = hardwareMap.get(Servo.class, "DifferentialRight");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
@@ -62,12 +64,14 @@ public class TeleOpManual extends LinearOpMode {
         robotElbowLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         robotElbowRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        robotClawLeftServo.setPosition(0.6);
-        robotClawRightServo.setPosition(0.4);
+
 
         // Robot is fully initialized and waiting for start button to be pressed
         // after autonomous is completed and teleop begins.
         waitForStart();
+
+        robotClawLeftServo.setPosition(0.6);
+        robotClawRightServo.setPosition(0.4);
 
         // Pre-position components to their initial location at the start of teleop
 
@@ -127,13 +131,35 @@ public class TeleOpManual extends LinearOpMode {
             if (coDriverLeftClaw) {
                 robotClawLeftServo.setPosition(0.75);
             } else {
-                robotClawLeftServo.setPosition(1);
+                robotClawLeftServo.setPosition(0.962);
             }
             if (coDriverRightClaw) {
                 robotClawRightServo.setPosition(0.25);
             } else {
-                robotClawRightServo.setPosition(0);
+                robotClawRightServo.setPosition(0.012);
             }
+
+            if (gamepad2.y){
+                robotDifferentialLeftServo.setPosition(0.15);
+                robotDifferentialRightServo.setPosition(0.85);
+            }else{
+                robotDifferentialLeftServo.setPosition(0);
+                robotDifferentialRightServo.setPosition(1);
+
+            }
+
+
+            //Maybe toggle.
+//            if (coDriverLeftDifferential) {
+//                robotClawRightServo.setPosition(0.25);
+//            } else {
+//                robotClawRightServo.setPosition(0);
+//            }
+//            if (coDriverRightDifferential) {
+//                robotClawRightServo.setPosition(0.75);
+//            } else {
+//                robotClawRightServo.setPosition(1);
+//            }
 
             // Maybe toggle.
 //            if (coDriverLeftClaw){
