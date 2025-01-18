@@ -26,6 +26,7 @@ public class AutoLeft extends LinearOpMode {
         Servo robotClawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
         Servo robotClawRightServo = hardwareMap.get(Servo.class, "ClawRight");
 
+
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed).
         robotFrontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -58,6 +59,10 @@ public class AutoLeft extends LinearOpMode {
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
+        robotClawLeftServo.setPosition(0.75);
+        robotClawRightServo.setPosition(0.25);
+
+
         // lift goes up.
         robotLiftMotors.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -72,8 +77,7 @@ public class AutoLeft extends LinearOpMode {
 
         sleep(250);
 
-        robotClawLeftServo.setPosition(0.6);
-        robotClawRightServo.setPosition(0.4);
+
 
         sleep(250);
 

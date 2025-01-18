@@ -25,6 +25,8 @@ public class AutoRight extends LinearOpMode {
         CRServo robotArmServo = hardwareMap.get(CRServo.class, "Arm");
         Servo robotClawLeftServo = hardwareMap.get(Servo.class, "ClawLeft");
         Servo robotClawRightServo = hardwareMap.get(Servo.class, "ClawRight");
+        Servo robotDifferentialLeftServo = hardwareMap.get(Servo.class, "DifferentialLeft");
+        Servo robotDifferentialRightServo = hardwareMap.get(Servo.class, "DifferentialRight");
 
         // Perform initialization of robot objects to make them ready to accept
         // commands once the robot becomes active (start pressed)
@@ -56,8 +58,10 @@ public class AutoRight extends LinearOpMode {
         // Robot is fully initialized and waiting for start button to be pressed
         waitForStart();
 
-        robotClawLeftServo.setPosition(0.4);
-        robotClawRightServo.setPosition(0.6);
+        robotClawLeftServo.setPosition(0.962);
+        robotClawRightServo.setPosition(0.038);
+        robotDifferentialLeftServo.setPosition(0.3);
+        robotDifferentialRightServo.setPosition(0.7);
 
         //robotLiftMotors.setPower(1);
         //robotLiftMotors.setPower(0);

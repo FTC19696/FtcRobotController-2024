@@ -20,8 +20,8 @@ public class TeleOpManual extends LinearOpMode {
         double coDriverArm;
         boolean coDriverElbowUp;
         boolean coDriverElbowDown;
-        boolean coDriverLeftClaw;
-        boolean coDriverRightClaw;
+        boolean coDriverClawClose;
+        boolean coDriverClawOpen;
 
         // Declare computed variables that will be sent to the robot objects or used
         // in further computation.
@@ -70,8 +70,8 @@ public class TeleOpManual extends LinearOpMode {
         // after autonomous is completed and teleop begins.
         waitForStart();
 
-        robotClawLeftServo.setPosition(0.6);
-        robotClawRightServo.setPosition(0.4);
+        robotClawLeftServo.setPosition(0.962);
+        robotClawRightServo.setPosition(0.038);
 
         // Pre-position components to their initial location at the start of teleop
 
@@ -85,8 +85,8 @@ public class TeleOpManual extends LinearOpMode {
             driverStrafe = gamepad1.left_stick_x;
             driverSlow = gamepad1.right_bumper;
             coDriverLift = gamepad2.left_stick_y;
-            coDriverLeftClaw = gamepad2.left_bumper;
-            coDriverRightClaw = gamepad2.right_bumper;
+            coDriverClawClose = gamepad2.left_bumper;
+            coDriverClawOpen = gamepad2.right_bumper;
             coDriverArm = gamepad2.right_stick_y;
             coDriverElbowUp = gamepad2.dpad_up;
             coDriverElbowDown = gamepad2.dpad_down;
@@ -114,11 +114,11 @@ public class TeleOpManual extends LinearOpMode {
 
             // Elbow motors.
             if (coDriverElbowUp) {
-                robotElbowLeftMotor.setPower(0.5);
-                robotElbowRightMotor.setPower(0.5);
+                robotElbowLeftMotor.setPower(-0.5);
+                robotElbowRightMotor.setPower(-0.5);
             } else if (coDriverElbowDown) {
-                robotElbowLeftMotor.setPower(-0.4);
-                robotElbowRightMotor.setPower(-0.4);
+                robotElbowLeftMotor.setPower(0.4);
+                robotElbowRightMotor.setPower(0.4);
             } else {
                 robotElbowLeftMotor.setPower(0);
                 robotElbowRightMotor.setPower(0);
@@ -128,21 +128,21 @@ public class TeleOpManual extends LinearOpMode {
             robotArmServo.setPower(coDriverArm);
 
             // Claw servos
-            if (coDriverLeftClaw) {
+            if (coDriverClawOpen) {
                 robotClawLeftServo.setPosition(0.75);
-            } else {
-                robotClawLeftServo.setPosition(0.962);
-            }
-            if (coDriverRightClaw) {
                 robotClawRightServo.setPosition(0.25);
-            } else {
-                robotClawRightServo.setPosition(0.012);
+            } else if(coDriverClawClose) {
+                robotClawLeftServo.setPosition(0.962);
+                robotClawRightServo.setPosition(0.038);
             }
 
-            if (gamepad2.y){
-                robotDifferentialLeftServo.setPosition(0.15);
-                robotDifferentialRightServo.setPosition(0.85);
-            }else{
+            if (gamepad2.a){
+                robotDifferentialLeftServo.setPosition(0.3);
+                robotDifferentialRightServo.setPosition(0.7);
+            }else if(gamepad2.y){
+                robotDifferentialLeftServo.setPosition(0.4);
+                robotDifferentialRightServo.setPosition(0.6);
+            }else if (gamepad2.x){
                 robotDifferentialLeftServo.setPosition(0);
                 robotDifferentialRightServo.setPosition(1);
 
