@@ -294,7 +294,7 @@ public class AutoRight extends LinearOpMode {
         robotBackRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         sleep(250);
-        
+
 
 
 //
